@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<body>
+<button onclick="showText()">Tampilkan Teks</button>
+
+<script>
+function showText() {
+  const text = "Ini adalah teks dari Blob URL.\nDitampilkan langsung di browser.";
+  const blob = new Blob([text], { type: "text/plain" });
+  const url = URL.createObjectURL(blob);
+
+  window.open(url);
+}
+</script>
+</body>
+</html>
